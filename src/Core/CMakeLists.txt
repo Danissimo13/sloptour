@@ -1,0 +1,1 @@
+sloptour_add_layer(sloptour_core)

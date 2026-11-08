@@ -1,0 +1,95 @@
+---
+Checks: >
+  -*,
+  bugprone-*,
+  cert-*,
+  clang-analyzer-*,
+  concurrency-*,
+  cppcoreguidelines-*,
+  hicpp-*,
+  misc-*,
+  modernize-*,
+  performance-*,
+  portability-*,
+  readability-*,
+  -bugprone-easily-swappable-parameters,
+  -bugprone-exception-escape,
+  -cppcoreguidelines-avoid-magic-numbers,
+  -hicpp-uppercase-literal-suffix,
+  -misc-include-cleaner,
+  -misc-no-recursion,
+  -portability-avoid-pragma-once,
+  -readability-make-member-function-const,
+  -modernize-use-trailing-return-type,
+  -readability-uppercase-literal-suffix
+WarningsAsErrors: '*'
+HeaderFilterRegex: '.*/(src|tests)/.*'
+FormatStyle: file
+CheckOptions:
+  - key: readability-identifier-naming.NamespaceCase
+    value: lower_case
+  - key: readability-identifier-naming.ClassCase
+    value: CamelCase
+  - key: readability-identifier-naming.StructCase
+    value: CamelCase
+  - key: readability-identifier-naming.UnionCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumCase
+    value: CamelCase
+  - key: readability-identifier-naming.EnumConstantCase
+    value: CamelCase
+  - key: readability-identifier-naming.TypeAliasCase
+    value: CamelCase
+  - key: readability-identifier-naming.TypedefCase
+    value: CamelCase
+  - key: readability-identifier-naming.TemplateParameterCase
+    value: CamelCase
+  - key: readability-identifier-naming.ConceptCase
+    value: CamelCase
+  - key: readability-identifier-naming.FunctionCase
+    value: lower_case
+  - key: readability-identifier-naming.MethodCase
+    value: lower_case
+  - key: readability-identifier-naming.VariableCase
+    value: lower_case
+  - key: readability-identifier-naming.ParameterCase
+    value: lower_case
+  - key: readability-identifier-naming.PublicMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.PrivateMemberPrefix
+    value: m_
+  - key: readability-identifier-naming.ProtectedMemberCase
+    value: lower_case
+  - key: readability-identifier-naming.ProtectedMemberPrefix
+    value: m_
+  - key: readability-identifier-naming.ConstexprVariableCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.GlobalConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.StaticConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-naming.ClassConstantCase
+    value: UPPER_CASE
+  - key: readability-identifier-length.MinimumVariableNameLength
+    value: 1
+  - key: readability-identifier-length.MinimumParameterNameLength
+    value: 1
+  - key: readability-identifier-length.MinimumLoopCounterNameLength
+    value: 1
+  - key: readability-magic-numbers.IgnoredIntegerValues
+    value: '1;2'
+  - key: readability-magic-numbers.IgnoredFloatingPointValues
+    value: '0.0;1.0;0.5;2.0'
+  - key: misc-non-private-member-variables-in-classes.IgnoreClassesWithAllMemberVariablesBeingPublic
+    value: true
+  - key: cppcoreguidelines-special-member-functions.AllowSoleDefaultDtor
+    value: true
+  - key: hicpp-special-member-functions.AllowSoleDefaultDtor
+    value: true
+  - key: readability-function-cognitive-complexity.Threshold
+    value: 15
+  - key: readability-function-size.LineThreshold
+    value: 40
+...

@@ -1,0 +1,222 @@
+{
+  "agent": "claude",
+  "agents": {
+    "claude": {
+      "description": "Claude Code in headless print mode, read-only tools",
+      "command": [
+        "claude",
+        "{model_arguments}",
+        "-p",
+        "--output-format",
+        "stream-json",
+        "--verbose",
+        "--allowedTools",
+        "Read",
+        "Grep",
+        "Glob",
+        "LS",
+        "Bash(git log:*)",
+        "Bash(git show:*)",
+        "Bash(git diff:*)",
+        "Bash(git status:*)",
+        "Bash(ls:*)",
+        "Bash(wc:*)"
+      ],
+      "output": "claude-stream",
+      "timeout_seconds": 1200,
+      "models": [
+        "opus",
+        "sonnet",
+        "haiku"
+      ],
+      "model_arguments": [
+        "--model",
+        "{model}"
+      ]
+    },
+    "codex": {
+      "description": "OpenAI Codex CLI, read-only sandbox",
+      "command": [
+        "codex",
+        "exec",
+        "{model_arguments}",
+        "--sandbox",
+        "read-only",
+        "--skip-git-repo-check",
+        "-"
+      ],
+      "output": "text",
+      "timeout_seconds": 1200,
+      "models": [
+        "gpt-5-codex",
+        "gpt-5"
+      ],
+      "model_arguments": [
+        "--model",
+        "{model}"
+      ]
+    },
+    "gemini": {
+      "description": "Gemini CLI, prompt from stdin",
+      "command": [
+        "gemini",
+        "{model_arguments}"
+      ],
+      "timeout_seconds": 1200,
+      "models": [
+        "gemini-2.5-pro",
+        "gemini-2.5-flash"
+      ],
+      "model_arguments": [
+        "--model",
+        "{model}"
+      ]
+    },
+    "cursor": {
+      "description": "Cursor agent CLI in print mode",
+      "command": [
+        "cursor-agent",
+        "{model_arguments}",
+        "-p",
+        "--output-format",
+        "text"
+      ],
+      "timeout_seconds": 1200,
+      "models": [
+        "sonnet-4.5",
+        "gpt-5"
+      ],
+      "model_arguments": [
+        "--model",
+        "{model}"
+      ]
+    }
+  },
+  "generation": {
+    "parallel_chapters": 3,
+    "repair_attempts": 1,
+    "default_level": "medium",
+    "depths": [
+      {
+        "name": "light",
+        "min_chapters": 3,
+        "max_chapters": 4,
+        "max_steps": 3,
+        "deepen_steps": 2,
+        "quiz_questions": 4,
+        "guidance": "Light depth: a quick orientation. Cover only the main parts and the one or two most important flows. Stay at the level of modules and their responsibilities, follow calls at most one level deep."
+      },
+      {
+        "name": "medium",
+        "min_chapters": 4,
+        "max_chapters": 7,
+        "max_steps": 5,
+        "deepen_steps": 3,
+        "quiz_questions": 6,
+        "guidance": "Medium depth: a solid working understanding. Cover every major part and the key end-to-end flows, follow calls across modules to where the real work happens."
+      },
+      {
+        "name": "high",
+        "min_chapters": 6,
+        "max_chapters": 10,
+        "max_steps": 7,
+        "deepen_steps": 4,
+        "quiz_questions": 10,
+        "guidance": "High depth: an expert-level map. Cover all significant subsystems, trace flows to the lowest layer that matters, include configuration, error handling, concurrency, persistence, tests and the reasoning behind design choices."
+      }
+    ],
+    "details": [
+      {
+        "name": "light",
+        "guidance": "Keep each step body short: 50-120 words, the essentials only, one code location."
+      },
+      {
+        "name": "medium",
+        "guidance": "Write each step body in 120-250 words with 1-2 code locations: the idea, how the pieces connect and why."
+      },
+      {
+        "name": "high",
+        "guidance": "Write each step body in 250-450 words with 2-3 code locations: the idea, how the pieces connect, edge cases, failure modes, invariants and the reasoning behind the design."
+      }
+    ]
+  },
+  "git": {
+    "recent_commits": 40,
+    "max_digest_characters": 16000
+  },
+  "editor": {
+    "fallback": "vi",
+    "arguments": {
+      "default": [
+        "+{line}",
+        "{path}"
+      ],
+      "code": [
+        "--goto",
+        "{path}:{line}"
+      ],
+      "code-insiders": [
+        "--goto",
+        "{path}:{line}"
+      ],
+      "cursor": [
+        "--goto",
+        "{path}:{line}"
+      ],
+      "windsurf": [
+        "--goto",
+        "{path}:{line}"
+      ],
+      "zed": [
+        "{path}:{line}"
+      ],
+      "subl": [
+        "{path}:{line}"
+      ],
+      "idea": [
+        "--line",
+        "{line}",
+        "{path}"
+      ],
+      "clion": [
+        "--line",
+        "{line}",
+        "{path}"
+      ]
+    }
+  },
+  "storage": {
+    "directory": ".sloptour"
+  },
+  "terminal": {
+    "outline_width": 38,
+    "code_context_lines": 3,
+    "code_max_lines": 80,
+    "activity_lines": 6,
+    "tab_width": 4,
+    "theme": {
+      "background": "default",
+      "text": "default",
+      "muted": "bright-black",
+      "accent": "blue",
+      "accent_soft": "bright-black",
+      "success": "green",
+      "warning": "yellow",
+      "danger": "red",
+      "code_background": "default",
+      "code_focus": "default",
+      "keyword": "magenta",
+      "string": "green",
+      "number": "cyan",
+      "comment": "bright-black",
+      "heading": "cyan",
+      "inline_code": "yellow",
+      "badge_text": "black"
+    },
+    "chat_height": 12
+  },
+  "preferences": {
+    "language": "en",
+    "storage": "repository"
+  }
+}

@@ -1,0 +1,7 @@
+---
+InheritParentConfig: true
+Checks: >
+  -readability-function-cognitive-complexity,
+  -cppcoreguidelines-avoid-non-const-global-variables,
+  -cppcoreguidelines-owning-memory
+...

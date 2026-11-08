@@ -1,0 +1,27 @@
+---
+Language: Cpp
+BasedOnStyle: LLVM
+Standard: c++20
+IndentWidth: 4
+ColumnLimit: 120
+AccessModifierOffset: -4
+AllowShortFunctionsOnASingleLine: Empty
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLoopsOnASingleLine: false
+AlwaysBreakTemplateDeclarations: Yes
+BreakConstructorInitializers: BeforeComma
+PackConstructorInitializers: Never
+DerivePointerAlignment: false
+PointerAlignment: Left
+FixNamespaceComments: false
+IncludeBlocks: Regroup
+IncludeCategories:
+  - Regex: '^"'
+    Priority: 1
+  - Regex: '^<raylib|^<rlgl|^<raymath|^<gtest|^<nlohmann|^<ftxui|^<reproc|^<CLI/'
+    Priority: 2
+  - Regex: '^<'
+    Priority: 3
+SortIncludes: CaseSensitive
+NamespaceIndentation: None
+...

@@ -1,0 +1,6 @@
+add_subdirectory(Core)
+add_subdirectory(Domain)
+add_subdirectory(Application)
+add_subdirectory(Infrastructure)
+add_subdirectory(Terminal)
+add_subdirectory(App)

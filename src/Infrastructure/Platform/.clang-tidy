@@ -1,0 +1,6 @@
+---
+InheritParentConfig: true
+Checks: >
+  -concurrency-mt-unsafe,
+  -readability-convert-member-functions-to-static
+...
