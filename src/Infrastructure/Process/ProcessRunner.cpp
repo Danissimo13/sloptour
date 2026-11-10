@@ -1,16 +1,17 @@
 #include "Infrastructure/Process/ProcessRunner.hpp"
 
 #include "Infrastructure/Process/ExecutableLocator.hpp"
+#include "Infrastructure/Process/InputFile.hpp"
 #include "Infrastructure/Process/LineSplitter.hpp"
 
 #include <reproc++/reproc.hpp>
 
 #include <array>
 #include <cstdint>
+#include <optional>
 #include <span>
 #include <system_error>
 #include <utility>
-#include <vector>
 
 namespace sloptour::infrastructure {
 
@@ -37,14 +38,20 @@ public:
         const auto directory = command.working_directory.string();
         options.working_directory = directory.c_str();
         options.stop = stop_actions();
-        options.redirect.in.type = reproc::redirect::pipe;
+        auto input = InputFile::create(command.input);
+        if (!input) {
+            return std::unexpected(input.error());
+        }
+        m_input = std::move(*input);
+        options.redirect.in.type = reproc::redirect::path_;
+        options.redirect.in.path = m_input->path().c_str();
         options.redirect.out.type = reproc::redirect::pipe;
         options.redirect.err.type = reproc::redirect::pipe;
         if (const auto error = m_process.start(launchable(command.arguments), options)) {
             return std::unexpected(
                 ProcessError("cannot start '" + command.arguments.front() + "': " + error.message()));
         }
-        return send(command.input);
+        return {};
     }
 
     [[nodiscard]] ProcessResult<ProcessOutcome> collect(const ProcessCommand& command, const std::stop_token& stop) {
@@ -69,22 +76,6 @@ public:
     }
 
 private:
-    [[nodiscard]] ProcessResult<void> send(std::string_view input) {
-        const std::vector<std::uint8_t> bytes(input.begin(), input.end());
-        auto remaining = std::span(bytes);
-        while (!remaining.empty()) {
-            const auto [written, error] = m_process.write(remaining.data(), remaining.size());
-            if (error) {
-                return std::unexpected(ProcessError("cannot send input: " + error.message()));
-            }
-            remaining = remaining.subspan(written);
-        }
-        if (const auto error = m_process.close(reproc::stream::in)) {
-            return std::unexpected(ProcessError("cannot close input: " + error.message()));
-        }
-        return {};
-    }
-
     void drain(int events) {
         if ((static_cast<unsigned>(events) & static_cast<unsigned>(reproc::event::out)) != 0U) {
             read(reproc::stream::out, m_outcome.output, m_output_lines, m_listeners.output);
@@ -121,6 +112,7 @@ private:
         return std::move(m_outcome);
     }
 
+    std::optional<InputFile> m_input;
     ProcessListeners m_listeners;
     reproc::milliseconds m_poll_interval;
     reproc::process m_process;
