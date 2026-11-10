@@ -40,6 +40,14 @@ TEST(ProcessTests, PassesInputAndCollectsOutput) {
     EXPECT_EQ(outcome->status, 0);
 }
 
+TEST(ProcessTests, GivesInputAsAFileThatAgentsOnWindowsCanRead) {
+    const infrastructure::ProcessRunner runner(POLL);
+    const auto outcome = runner.run(shell("test -f /dev/stdin && cat", "hello"), quiet(), std::stop_token{});
+    ASSERT_TRUE(outcome.has_value()) << outcome.error().message();
+    EXPECT_EQ(outcome->output, "hello");
+    EXPECT_EQ(outcome->status, 0);
+}
+
 TEST(ProcessTests, ReportsExitStatusAndErrors) {
     const infrastructure::ProcessRunner runner(POLL);
     const auto outcome = runner.run(shell("echo broken >&2; exit 3"), quiet(), std::stop_token{});
